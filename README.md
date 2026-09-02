@@ -1,126 +1,114 @@
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:1a1a2e,50:16213e,100:0f3460&height=180&section=header&text=AgentForge%20Platform&fontSize=42&fontColor=ffffff&animation=fadeIn" alt="AgentForge Platform"/>
+
 <div align="center">
 
-# AgentForge Platform
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&pause=1000&color=00d4aa&width=500&lines=Token+Compression+%2B+Multi-Agent+Orchestration;Netflix+Data+Analysis+%2B+Causal+Inference;7+Open-Source+Projects+Unified&fontColor=00d4aa&center=true&vCenter=true&duration=2500&repeat=true" alt="Typing SVG" /></a>
 
-**Compression + Multi-Agent Orchestration + Netflix Analysis — all in one.**
+<br>
 
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-00FF00?style=for-the-badge)](LICENSE)
-[![Headroom](https://img.shields.io/badge/Headroom-68K_Stars-FF6B35?style=for-the-badge&logo=github)](https://github.com/headroomlabs-ai/headroom)
-[![FastMCP](https://img.shields.io/badge/FastMCP-27K_Stars-4A90D9?style=for-the-badge&logo=fastapi)](https://github.com/PrefectHQ/fastmcp)
-[![MetaGPT](https://img.shields.io/badge/MetaGPT-70K_Stars-9B59B6?style=for-the-badge)](https://github.com/geekan/MetaGPT)
-[![Netflix](https://img.shields.io/badge/Netflix_Data-E50914?style=for-the-badge&logo=netflix&logoColor=white)](https://www.kaggle.com/datasets/shivamb/netflix-shows)
+<a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform">
+<img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+</a>
+<a href="https://github.com/headroomlabs-ai/headroom">
+<img src="https://img.shields.io/badge/Headroom-68k%20Stars-FF6B35?style=flat-square&logo=github" alt="Headroom">
+</a>
+<a href="https://github.com/PrefectHQ/fastmcp">
+<img src="https://img.shields.io/badge/FastMCP-27k%20Stars-4A90D9?style=flat-square&logo=fastapi" alt="FastMCP">
+</a>
+<a href="https://github.com/geekan/MetaGPT">
+<img src="https://img.shields.io/badge/MetaGPT-70k%20Stars-9B59B6?style=flat-square" alt="MetaGPT">
+</a>
+<a href="https://github.com/lastmile-ai/mcp-agent">
+<img src="https://img.shields.io/badge/mcp--agent-8.5k%20Stars-2ECC71?style=flat-square" alt="mcp-agent">
+</a>
+<a href="https://github.com/Netflix-Skunkworks/oci-agent">
+<img src="https://img.shields.io/badge/Netflix_OCI-E50914?style=flat-square&logo=netflix&logoColor=white" alt="Netflix OCI">
+</a>
 
-```
-  ┌─────────────────────────────────────────────────────────┐
-  │                                                         │
-  │   7 open-source projects. 1 unified platform.           │
-  │   94.8% fewer tokens. Same accuracy.                    │
-  │                                                         │
-  └─────────────────────────────────────────────────────────┘
-```
+<br>
 
-[Quick Start](#quick-start) · [Architecture](#architecture) · [Benchmark](#benchmark-results) · [Dashboard](#dashboard) · [MCP Server](#mcp-server)
+<img src="https://skillicons.dev/icons?i=python,fastapi,streamlit,docker,github,git,vscode,linux&theme=dark" alt="Tech Stack" />
+
+<br>
+
+<a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform/blob/main/LICENSE">
+<img src="https://img.shields.io/badge/License-MIT-00d4aa?style=flat-square" alt="License">
+</a>
+<a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform/stargazers">
+<img src="https://img.shields.io/github/stars/Youssef-AMARZOU/AgentForge-Platform?style=flat-square&logo=github&color=FF6B35" alt="Stars">
+</a>
+<a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform/network/members">
+<img src="https://img.shields.io/github/forks/Youssef-AMARZOU/AgentForge-Platform?style=flat-square&logo=github&color=3498DB" alt="Forks">
+</a>
+<a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform/issues">
+<img src="https://img.shields.io/github/issues/Youssef-AMARZOU/AgentForge-Platform?style=flat-square&logo=github&color=E74C3C" alt="Issues">
+</a>
+<a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform/commits/main">
+<img src="https://img.shields.io/github/last-commit/Youssef-AMARZOU/AgentForge-Platform?style=flat-square&logo=github&color=9B59B6" alt="Last Commit">
+</a>
 
 </div>
 
 ---
 
-## What is AgentForge?
+### Benchmark Results
 
-AgentForge merges the best open-source AI tools into a single platform for **token compression**, **multi-agent orchestration**, and **data analysis**.
-
-```
-Your agent reads a 10,000-token log file to find one error.
-You paid for all 10,000 tokens.
-The answer needed 1,200.
-
-AgentForge compresses the context BEFORE it reaches the LLM.
-Same answer. 94.8% fewer tokens. Fraction of the cost.
-```
-
-### What's Inside
-
-| Component | Project | Stars | What it Does |
-|:----------|:--------|:-----:|:-------------|
-| 🔧 **Token Compression** | [Headroom](https://github.com/headroomlabs-ai/headroom) | 68K | SmartCrusher, ML model, reversible CCR |
-| 🔌 **MCP Server** | [FastMCP](https://github.com/PrefectHQ/fastmcp) | 27K | Expose tools via Model Context Protocol |
-| 🤖 **Agent Patterns** | [mcp-agent](https://github.com/lastmile-ai/mcp-agent) | 8.5K | Router, orchestrator-workers, map-reduce |
-| 🏢 **Multi-Agent** | [MetaGPT](https://github.com/geekan/MetaGPT) | 70K | Software company simulation |
-| 🔍 **Query-Aware** | [SuperCompress](https://github.com/Supercompress/Supercompress) | 65 | Keeps answer-critical lines |
-| 🔗 **14-Stage Pipeline** | [Claw Compactor](https://github.com/open-compress/claw-compactor) | — | JSON tabularization, log crunching, AST |
-| 📊 **Causal Inference** | [Netflix OCI Agent](https://github.com/Netflix-Skunkworks/oci-agent) | 47 | Actor-critic causal analysis |
+<table>
+<tr>
+<td align="center">
+<img src="https://capsule-render.vercel.app/api?type=rounded&color=0:FF6B35,100:FF6B35&height=70&width=180&text=JSON+API&fontSize=11&fontColor=ffffff" alt="JSON API">
+<br>37,245  →  23,629 tokens
+<br><b>-36.6%</b>
+</td>
+<td align="center">
+<img src="https://capsule-render.vercel.app/api?type=rounded&color=0:E74C3C,100:E74C3C&height=70&width=180&text=Server+Logs&fontSize=11&fontColor=ffffff" alt="Server Logs">
+<br>5,905  →  2,948 tokens
+<br><b>-50.1%</b>
+</td>
+<td align="center">
+<img src="https://capsule-render.vercel.app/api?type=rounded&color=0:2ECC71,100:2ECC71&height=70&width=180&text=Full+Catalog&fontSize=11&fontColor=ffffff" alt="Full Catalog">
+<br>1,599,165  →  1,508 tokens
+<br><b>-99.9%</b>
+</td>
+</tr>
+</table>
 
 ---
 
-## Table of Contents
-
-- [Quick Start](#quick-start)
-- [Architecture](#architecture)
-- [Compression Engines](#compression-engines)
-- [Benchmark Results](#benchmark-results)
-- [MCP Server](#mcp-server)
-- [Agent Orchestration](#agent-orchestration)
-- [Netflix Analysis](#netflix-analysis)
-- [Causal Inference](#causal-inference)
-- [Dashboard](#dashboard)
-- [Project Structure](#project-structure)
-- [Requirements](#requirements)
-- [Credits](#credits)
-- [License](#license)
-
----
-
-## Quick Start
+### Quick Start
 
 ```bash
-# Clone
 git clone https://github.com/Youssef-AMARZOU/AgentForge-Platform.git
 cd AgentForge-Platform
-
-# Install
 pip install -r requirements.txt
 
-# Run benchmark
-python main.py benchmark
-
-# Run Netflix analysis
-python main.py analyze
-
-# Start MCP server
-python main.py mcp
-
-# Launch dashboard
-python main.py dashboard
-```
-
-### Usage as Library
-
-```python
-from core.compression.engines import compress
-
-# Auto-select best engine
-result = compress(json_data, engine="auto")
-print(f"{result.original_tokens} -> {result.compressed_tokens} tokens (-{result.savings_pct}%)")
-
-# Specific engines
-result = compress(text, engine="headroom")   # Best for JSON
-result = compress(logs, engine="claw")       # Best for logs
-result = compress(ctx, engine="super", query="error")  # Query-aware
-```
-
-### Compare All Engines
-
-```python
-from core.mcp.server import compare_engines
-
-results = compare_engines(text, query="what failed?")
-# Returns: {"headroom": {...}, "claw_compactor": {...}, "supercompress": {...}}
+python main.py benchmark    # Compression benchmark
+python main.py analyze      # Netflix catalog analysis
+python main.py mcp          # Start MCP server
+python main.py dashboard    # Launch Streamlit UI
 ```
 
 ---
 
-## Architecture
+### Integrated Projects
+
+<table>
+<tr>
+<td align="center"><a href="https://github.com/headroomlabs-ai/headroom"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:FF6B35,100:FF6B35&height=70&width=140&text=Headroom&fontSize=10&fontColor=ffffff" alt="Headroom"/><br><sub>68k Stars</sub><br><sub>Token Compression</sub></a></td>
+<td align="center"><a href="https://github.com/PrefectHQ/fastmcp"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:3498DB,100:3498DB&height=70&width=140&text=FastMCP&fontSize=10&fontColor=ffffff" alt="FastMCP"/><br><sub>27k Stars</sub><br><sub>MCP Server</sub></a></td>
+<td align="center"><a href="https://github.com/lastmile-ai/mcp-agent"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:9B59B6,100:9B59B6&height=70&width=140&text=mcp-agent&fontSize=10&fontColor=ffffff" alt="mcp-agent"/><br><sub>8.5k Stars</sub><br><sub>Agent Patterns</sub></a></td>
+<td align="center"><a href="https://github.com/geekan/MetaGPT"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:2ECC71,100:2ECC71&height=70&width=140&text=MetaGPT&fontSize=10&fontColor=ffffff" alt="MetaGPT"/><br><sub>70k Stars</sub><br><sub>Multi-Agent</sub></a></td>
+</tr>
+<tr>
+<td align="center"><a href="https://github.com/open-compress/claw-compactor"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:E74C3C,100:E74C3C&height=70&width=140&text=Claw&fontSize=10&fontColor=ffffff" alt="Claw"/><br><sub>14-Stage</sub><br><sub>Compression</sub></a></td>
+<td align="center"><a href="https://github.com/Supercompress/Supercompress"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:F39C12,100:F39C12&height=70&width=140&text=SuperCompress&fontSize=10&fontColor=ffffff" alt="SuperCompress"/><br><sub>Query-Aware</sub><br><sub>Extractive</sub></a></td>
+<td align="center"><a href="https://github.com/Netflix-Skunkworks/oci-agent"><img src="https://capsule-render.vercel.app/api?type=rect&color=0:1ABC9C,100:1ABC9C&height=70&width=140&text=Netflix+OCI&fontSize=10&fontColor=ffffff" alt="Netflix OCI"/><br><sub>Causal</sub><br><sub>Inference</sub></a></td>
+</tr>
+</table>
+
+---
+
+### Architecture
 
 ```
                           AgentForge Platform
@@ -143,7 +131,7 @@ results = compare_engines(text, query="what failed?")
     │                │                │
 ┌───▼───┐     ┌─────▼─────┐    ┌─────▼─────┐
 │  MCP  │     │  Agent    │    │ Netflix   │
-│ Server│     │Orchestratr│    │ Analysis  │
+│ Server│     │Orchestr.  │    │ Analysis  │
 └───┬───┘     └─────┬─────┘    └─────┬─────┘
     │                │                │
     └────────────────┼────────────────┘
@@ -156,178 +144,68 @@ results = compare_engines(text, query="what failed?")
 
 ---
 
-## Compression Engines
+### Compression Engines
 
-### Headroom (JSON/API Responses)
-
-Netflix's token compression engine. Best for structured JSON data.
-
-```python
-from core.compression.engines import compress_headroom
-
-result = compress_headroom(json_text)
-# 1,599,165 tokens -> 1,508 tokens (-99.9%)
-```
-
-**How it works:**
-- SmartCrusher compresses JSON arrays of objects
-- CacheAligner preserves KV-cache hit rates
-- CCR stores originals for reversible retrieval
-
-### Claw Compactor (Logs/Code)
-
-14-stage heuristic pipeline. Zero ML dependencies.
+| Engine | Best For | Method |
+|--------|----------|--------|
+| **Headroom** | JSON, API responses | SmartCrusher + ML model + CCR |
+| **Claw Compactor** | Logs, code, tabular data | 14-stage heuristic pipeline |
+| **SuperCompress** | Query-aware extraction | Keeps answer-critical lines |
 
 ```python
-from core.compression.engines import compress_claw
+from core.compression.engines import compress
 
-result = compress_claw(log_text, content_type="log")
-# Repeated log lines collapsed to [x1432] patterns
-```
+# Auto-select best engine
+result = compress(json_data, engine="auto")
 
-**Stages:** JSON tabularize → Log crunch → Semantic dedup → Structural collapse
-
-### SuperCompress (Query-Aware)
-
-Keeps answer-critical lines relative to a specific query.
-
-```python
-from core.compression.engines import compress_super
-
-result = compress_super(text, query="what caused the error?")
-# Keeps only lines relevant to the query
+# Specific engines
+result = compress(text, engine="headroom")   # JSON
+result = compress(logs, engine="claw")       # Logs
+result = compress(ctx, engine="super", query="error")  # Query-aware
 ```
 
 ---
 
-## Benchmark Results
-
-Real results from running `python main.py benchmark` on 8,800+ Netflix titles:
-
-### Test 1: JSON API Response (200 titles)
-
-```
-  Original:  37,245 tokens
-  Auto:      23,629 tokens  (-36.6%)
-  Claw:      23,629 tokens  (-36.6%)
-  Headroom:  37,252 tokens  (-0.0%)
-```
-
-### Test 2: Server Logs (200 lines)
-
-```
-  Original:   5,905 tokens
-  Auto:       5,852 tokens  (-0.9%)
-  Claw:       5,852 tokens  (-0.9%)
-  Super:      2,948 tokens  (-50.1%)
-```
-
-### Test 3: Full Netflix Catalog (8,807 titles)
-
-```
-  Original: 1,599,165 tokens
-  Auto:       1,508 tokens  (-99.9%)
-  Claw:     608,533 tokens  (-61.9%)
-  Headroom:   1,508 tokens  (-99.9%)
-```
-
-### Summary
-
-| Test | Original | Best Engine | Compressed | Savings |
-|:-----|:--------:|:------------|:----------:|:-------:|
-| JSON API Response | 37,245 | Claw | 23,629 | **-36.6%** |
-| Server Logs | 5,905 | SuperCompress | 2,948 | **-50.1%** |
-| Full Catalog JSON | 1,599,165 | Headroom | 1,508 | **-99.9%** |
-
-### Cost at Scale
-
-| Requests/day | Tokens Saved | Cost Saved (GPT-4o) |
-|:------------:|:------------:|:--------------------:|
-| 100 | 164,805 | $0.49/day |
-| 1,000 | 1,648,054 | **$4.94/day** |
-| 10,000 | 16,480,540 | **$49.44/day** |
-| 100,000 | 164,805,400 | **$494.42/day** |
-
----
-
-## MCP Server
-
-Expose compression tools via Model Context Protocol for Claude Code, Cursor, Copilot.
+### MCP Server
 
 ```bash
 python main.py mcp
 ```
 
-### Available Tools
+Available tools:
 
 | Tool | Description |
-|:-----|:------------|
-| `compress_text` | Compress any text with auto engine selection |
-| `compress_json_payload` | Optimize JSON API responses |
-| `compress_server_logs` | Deduplicate and collapse log patterns |
-| `compress_query_aware` | Keep answer-critical lines for a query |
-| `compare_engines` | Run all engines and compare results |
-
-### Integration with Claude Desktop
-
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "agentforge": {
-      "command": "python",
-      "args": ["-m", "core.mcp.server"],
-      "cwd": "/path/to/AgentForge-Platform"
-    }
-  }
-}
-```
+|------|-------------|
+| `compress_text` | Auto engine selection |
+| `compress_json_payload` | Optimize JSON responses |
+| `compress_server_logs` | Deduplicate log patterns |
+| `compress_query_aware` | Keep query-relevant lines |
+| `compare_engines` | Compare all engines |
 
 ---
 
-## Agent Orchestration
-
-mcp-agent patterns built in:
-
-### Router
-
-Routes tasks to the best agent based on content analysis:
+### Agent Orchestration
 
 ```python
-from core.agents.orchestrator import Router, DataAnalystAgent, CompressionExpertAgent
+from core.agents.orchestrator import Router, Orchestrator, ParallelExecutor
+from core.agents.orchestrator import DataAnalystAgent, CompressionExpertAgent, InsightSynthesizerAgent
 
+# Router - routes to best agent
 router = Router([DataAnalystAgent(), CompressionExpertAgent()])
 agent = router.route("compress this JSON payload")
-```
 
-### Orchestrator-Workers
-
-Plan → dispatch → collect → synthesize:
-
-```python
-from core.agents.orchestrator import Orchestrator, DataAnalystAgent, CompressionExpertAgent, InsightSynthesizerAgent
-
+# Orchestrator-Workers - plan, dispatch, collect, synthesize
 orch = Orchestrator([DataAnalystAgent(), CompressionExpertAgent(), InsightSynthesizerAgent()])
 result = orch.run("analyze Netflix catalog and compress the results")
-```
 
-### Parallel Executor
-
-Fan-out map-reduce:
-
-```python
-from core.agents.orchestrator import ParallelExecutor, DataAnalystAgent
-
+# Parallel - fan-out map-reduce
 executor = ParallelExecutor([DataAnalystAgent()])
 results = executor.run(["query 1", "query 2", "query 3"])
 ```
 
 ---
 
-## Netflix Analysis
-
-Multi-agent analysis engine on 8,800+ titles:
+### Netflix Analysis
 
 ```python
 from core.netflix.analysis import NetflixAnalystAgent
@@ -345,174 +223,96 @@ for insight in result["insights"]:
 # Top producing country: United States (3690 titles)
 ```
 
-### Capabilities
+Capabilities:
 
-| Feature | Description |
-|:--------|:------------|
-| Temporal Trends | Content by year (movies vs TV shows) |
-| Geographic Distribution | Top producing countries |
-| Genre Analysis | Most common genres and categories |
-| Rating Distribution | Content ratings breakdown |
-| Recommendations | Similar content based on genre/title |
+- Temporal trends (content by year)
+- Geographic distribution (top countries)
+- Genre analysis (categories and ratings)
+- Content recommendations
+- Causal inference (actor-critic pattern)
 
 ---
 
-## Causal Inference
-
-Netflix OCI Agent pattern: actor-critic approach for causal analysis.
-
-```python
-from core.netflix.analysis import CausalInferenceAgent
-
-agent = CausalInferenceAgent()
-result = agent.estimate_effect(treatment="type", outcome="release_year")
-
-print(f"ATE: {result['ate']}")
-print(f"95% CI: [{result['ci_lower']}, {result['ci_upper']}]")
-print(f"Verdict: {result['method']}")
-```
-
-### How It Works
-
-```
-  Actor: Drafts causal spec (treatment, outcome, method)
-    │
-    ▼
-  Runner: Executes analysis on Netflix data
-    │
-    ▼
-  Critic: Reviews results, suggests revisions
-    │
-    ▼
-  Actor: Revises spec if needed
-    │
-    ▼
-  Final ATE estimate with confidence intervals
-```
-
----
-
-## Dashboard
-
-Interactive Streamlit dashboard with 4 tabs:
-
-```bash
-python main.py dashboard
-```
-
-| Tab | What It Shows |
-|:----|:--------------|
-| **Compression** | Compare all engines side-by-side on your data |
-| **Netflix Analysis** | Charts, stats, insights on the catalog |
-| **Recommendations** | Get content recommendations by genre |
-| **Causal Inference** | Estimate treatment effects interactively |
-
----
-
-## Project Structure
+### Project Structure
 
 ```
 AgentForge-Platform/
-│
 ├── main.py                         # Entry point
-├── benchmark.py                    # Compression benchmark
-├── requirements.txt
-├── LICENSE
-│
 ├── core/
-│   ├── compression/
-│   │   └── engines.py              # Headroom + Claw + SuperCompress
-│   ├── agents/
-│   │   └── orchestrator.py         # Router, orchestrator-workers, parallel
-│   ├── mcp/
-│   │   └── server.py               # FastMCP server
-│   ├── netflix/
-│   │   └── analysis.py             # Netflix catalog + recommendations
-│   └── causal/
-│       └── inference.py            # Actor-critic causal inference
-│
-├── dashboard/
-│   └── app.py                      # Streamlit dashboard
-│
-├── configs/
-│   └── default.yaml
-│
-├── data/
-│   └── netflix_titles.csv          # 8,800+ titles
-│
-└── results/
-    └── benchmark_results.json
+│   ├── compression/engines.py      # Headroom + Claw + SuperCompress
+│   ├── agents/orchestrator.py      # Router, orchestrator-workers, parallel
+│   ├── mcp/server.py               # FastMCP server
+│   ├── netflix/analysis.py         # Netflix catalog + recommendations
+│   └── causal/inference.py         # Actor-critic causal inference
+├── dashboard/app.py                # Streamlit dashboard
+├── vendor/                         # Forked repos (git subtree)
+│   ├── headroom/
+│   ├── fastmcp/
+│   ├── mcp-agent/
+│   └── MetaGPT/
+└── data/netflix_titles.csv         # 8,800+ titles
 ```
 
 ---
 
-## Requirements
+### Tests
 
-- Python 3.10+
-- `headroom-ai[all]` — Token compression engine
-- `fastmcp` — MCP server framework
-- `pandas` — Data processing
-- `streamlit` — Dashboard
-- `plotly` — Interactive charts
-- `tiktoken` — Token counting
-- `rich` — Terminal output
+```bash
+# Run all tests
+pytest
 
----
+# Specific test suites
+pytest tests/test_compression.py -v
+pytest tests/test_agents.py -v
+pytest tests/test_netflix.py -v
+pytest tests/test_causal.py -v
+pytest tests/test_mcp.py -v
 
-## Built With
+# With coverage
+pytest --cov=core --cov-report=term-missing
+```
 
-| Project | GitHub | Stars | License |
-|:--------|:-------|:-----:|:--------|
-| Headroom | [headroomlabs-ai/headroom](https://github.com/headroomlabs-ai/headroom) | 68K | Apache 2.0 |
-| FastMCP | [PrefectHQ/fastmcp](https://github.com/PrefectHQ/fastmcp) | 27K | Apache 2.0 |
-| mcp-agent | [lastmile-ai/mcp-agent](https://github.com/lastmile-ai/mcp-agent) | 8.5K | Apache 2.0 |
-| MetaGPT | [geekan/MetaGPT](https://github.com/geekan/MetaGPT) | 70K | MIT |
-| Netflix OCI Agent | [Netflix-Skunkworks/oci-agent](https://github.com/Netflix-Skunkworks/oci-agent) | 47 | Apache 2.0 |
-| Claw Compactor | [open-compress/claw-compactor](https://github.com/open-compress/claw-compactor) | — | MIT |
-| SuperCompress | [Supercompress/Supercompress](https://github.com/Supercompress/Supercompress) | 65 | MIT |
-
----
-
-## Credits
-
-This project merges patterns and APIs from 7 open-source projects:
-
-- **[Headroom](https://github.com/headroomlabs-ai/headroom)** by [Tejas Chopra](https://github.com/chopratejas) (Netflix) — Token compression engine
-- **[FastMCP](https://github.com/PrefectHQ/fastmcp)** by Prefect — MCP server framework
-- **[mcp-agent](https://github.com/lastmile-ai/mcp-agent)** by LastMile AI — Agent orchestration patterns
-- **[MetaGPT](https://github.com/geekan/MetaGPT)** — Multi-agent framework
-- **[Netflix OCI Agent](https://github.com/Netflix-Skunkworks/oci-agent)** by Netflix Skunkworks — Causal inference
-- **[Claw Compactor](https://github.com/open-compress/claw-compactor)** — 14-stage compression pipeline
-- **[SuperCompress](https://github.com/Supercompress/Supercompress)** — Query-aware compression
-
-> *"The cheapest token is the one you never send."* — Tejas Chopra
+Test coverage:
+- `test_compression.py` — Token counting, all 3 engines, router, edge cases
+- `test_agents.py` — Router, Orchestrator, ParallelExecutor, all agent types
+- `test_netflix.py` — Catalog, search, filter, analyst, recommendations, causal
+- `test_causal.py` — Actor, Critic, full actor-critic agent
+- `test_mcp.py` — All 5 MCP tools + stats resource
 
 ---
 
-## Contributing
+### Examples
 
-Contributions are welcome! Please open an issue or submit a pull request.
+Run from project root:
 
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
+```bash
+python examples/basic_compression.py      # All compression engines
+python examples/agent_orchestration.py    # Router, orchestrator, parallel
+python examples/netflix_analysis.py       # Catalog, recommendations, causal
+python examples/mcp_server.py             # All MCP tools
+python examples/causal_inference.py       # Actor-critic pattern
+python examples/dashboard_demo.py         # Launch Streamlit dashboard
+```
+
+| Script | Demonstrates |
+|--------|--------------|
+| `basic_compression.py` | Auto, Headroom, Claw, SuperCompress on JSON/logs |
+| `agent_orchestration.py` | Router, Orchestrator-Workers, Parallel map-reduce |
+| `netflix_analysis.py` | Stats, search, filter, recommendations, ATE |
+| `mcp_server.py` | compress_text, compare_engines, query_aware |
+| `causal_inference.py` | Actor spec drafting, Critic review, full agent loop |
+| `dashboard_demo.py` | Streamlit UI with 4 tabs |
 
 ---
 
-## License
+### License
 
-This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
-
-Individual components are licensed under their respective licenses (Apache 2.0, MIT).
+[MIT License](LICENSE)
 
 ---
 
 <div align="center">
 
-**[Headroom](https://github.com/headroomlabs-ai/headroom)** · **[FastMCP](https://github.com/PrefectHQ/fastmcp)** · **[mcp-agent](https://github.com/lastmile-ai/mcp-agent)** · **[MetaGPT](https://github.com/geekan/MetaGPT)** · **[Netflix OCI](https://github.com/Netflix-Skunkworks/oci-agent)** · **[Claw Compactor](https://github.com/open-compress/claw-compactor)** · **[SuperCompress](https://github.com/Supercompress/Supercompress)**
-
-[Report Bug](https://github.com/Youssef-AMARZOU/AgentForge-Platform/issues) · [Request Feature](https://github.com/Youssef-AMARZOU/AgentForge-Platform/issues)
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:1a1a2e,50:16213e,100:0f3460&height=120&section=footer" alt="footer"/>
 
 </div>
