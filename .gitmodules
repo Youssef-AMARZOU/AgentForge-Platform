@@ -1,0 +1,12 @@
+[submodule "vendor/headroom"]
+	path = vendor/headroom
+	url = https://github.com/Youssef-AMARZOU/headroom.git
+[submodule "vendor/mcp-agent"]
+	path = vendor/mcp-agent
+	url = https://github.com/Youssef-AMARZOU/mcp-agent.git
+[submodule "vendor/fastmcp"]
+	path = vendor/fastmcp
+	url = https://github.com/Youssef-AMARZOU/fastmcp.git
+[submodule "vendor/MetaGPT"]
+	path = vendor/MetaGPT
+	url = https://github.com/Youssef-AMARZOU/MetaGPT.git
