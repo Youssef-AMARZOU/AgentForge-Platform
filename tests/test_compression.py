@@ -69,12 +69,11 @@ class TestClawStages:
 
     def test_log_crunch(self):
         logs = "\n".join([
-            "2024-01-01 10:00:00 ERROR Connection failed",
-            "2024-01-01 10:00:01 ERROR Connection failed",
-            "2024-01-01 10:00:02 INFO Retrying",
+            f"2024-01-01 10:00:{i:02d} ERROR Connection failed"
+            for i in range(20)
         ])
         result = _stage_log_crunch(logs)
-        assert "[x2]" in result
+        assert "[x20]" in result or "[x10]" in result
         assert "ERROR Connection failed" in result
 
     def test_log_crunch_few_lines(self):

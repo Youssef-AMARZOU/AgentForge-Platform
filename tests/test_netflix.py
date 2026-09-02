@@ -39,27 +39,27 @@ class TestNetflixCatalog:
             assert "title" in r
 
     def test_filter_by_genre(self, catalog):
-        results = catalog.filter_by(genre="Drama", limit=5)
+        results = catalog.filter_by(genre="Drama")
         assert isinstance(results, list)
-        for r in results:
+        for r in results[:5]:
             assert "Drama" in r.get("listed_in", "")
 
     def test_filter_by_type(self, catalog):
-        movies = catalog.filter_by(content_type="Movie", limit=5)
-        for m in movies:
+        movies = catalog.filter_by(content_type="Movie")
+        for m in movies[:5]:
             assert m["type"] == "Movie"
-        tv = catalog.filter_by(content_type="TV Show", limit=5)
-        for t in tv:
+        tv = catalog.filter_by(content_type="TV Show")
+        for t in tv[:5]:
             assert t["type"] == "TV Show"
 
     def test_filter_by_country(self, catalog):
-        results = catalog.filter_by(country="United States", limit=5)
-        for r in results:
+        results = catalog.filter_by(country="United States")
+        for r in results[:5]:
             assert "United States" in r.get("country", "")
 
     def test_filter_by_year(self, catalog):
-        results = catalog.filter_by(year=2020, limit=5)
-        for r in results:
+        results = catalog.filter_by(year=2020)
+        for r in results[:5]:
             assert r["release_year"] == 2020
 
     def test_temporal_trends(self, catalog):

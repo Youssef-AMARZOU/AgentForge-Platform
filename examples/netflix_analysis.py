@@ -36,9 +36,9 @@ def main():
         print(f"  - {r['title']} ({r['type']})")
 
     # Filter
-    dramas = catalog.filter_by(genre="Drama", content_type="Movie", limit=5)
+    dramas = catalog.filter_by(genre="Drama", content_type="Movie")
     print(f"\nDrama Movies (top 5):")
-    for d in dramas:
+    for d in dramas[:5]:
         print(f"  - {d['title']} ({d['release_year']})")
 
     # 2. Analyst Agent - Full Analysis

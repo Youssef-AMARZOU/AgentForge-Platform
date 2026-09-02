@@ -5,11 +5,10 @@ Exposes compression tools via Model Context Protocol.
 
 from fastmcp import FastMCP
 import json
-from .engines import compress, compress_headroom, compress_claw, compress_super, count_tokens
+from ..compression.engines import compress, compress_headroom, compress_claw, compress_super, count_tokens
 
 mcp = FastMCP(
     name="AgentForge Compression Server",
-    description="Token compression tools for AI agents -- Headroom, Claw Compactor, SuperCompress",
 )
 
 

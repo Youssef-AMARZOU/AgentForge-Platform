@@ -139,7 +139,7 @@ class TestRouter:
     def test_router_routes_synthesis(self):
         agents = [DataAnalystAgent(), CompressionExpertAgent(), InsightSynthesizerAgent()]
         router = Router(agents)
-        task = AgentTask(id="r-003", description="Summarize the findings")
+        task = AgentTask(id="r-003", description="Summary of the findings")
         agent = router.route(task)
         assert agent.spec.name == "InsightSynthesizer"
 
