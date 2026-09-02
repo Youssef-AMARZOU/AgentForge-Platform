@@ -255,6 +255,56 @@ AgentForge-Platform/
 
 ---
 
+### Tests
+
+```bash
+# Run all tests
+pytest
+
+# Specific test suites
+pytest tests/test_compression.py -v
+pytest tests/test_agents.py -v
+pytest tests/test_netflix.py -v
+pytest tests/test_causal.py -v
+pytest tests/test_mcp.py -v
+
+# With coverage
+pytest --cov=core --cov-report=term-missing
+```
+
+Test coverage:
+- `test_compression.py` — Token counting, all 3 engines, router, edge cases
+- `test_agents.py` — Router, Orchestrator, ParallelExecutor, all agent types
+- `test_netflix.py` — Catalog, search, filter, analyst, recommendations, causal
+- `test_causal.py` — Actor, Critic, full actor-critic agent
+- `test_mcp.py` — All 5 MCP tools + stats resource
+
+---
+
+### Examples
+
+Run from project root:
+
+```bash
+python examples/basic_compression.py      # All compression engines
+python examples/agent_orchestration.py    # Router, orchestrator, parallel
+python examples/netflix_analysis.py       # Catalog, recommendations, causal
+python examples/mcp_server.py             # All MCP tools
+python examples/causal_inference.py       # Actor-critic pattern
+python examples/dashboard_demo.py         # Launch Streamlit dashboard
+```
+
+| Script | Demonstrates |
+|--------|--------------|
+| `basic_compression.py` | Auto, Headroom, Claw, SuperCompress on JSON/logs |
+| `agent_orchestration.py` | Router, Orchestrator-Workers, Parallel map-reduce |
+| `netflix_analysis.py` | Stats, search, filter, recommendations, ATE |
+| `mcp_server.py` | compress_text, compare_engines, query_aware |
+| `causal_inference.py` | Actor spec drafting, Critic review, full agent loop |
+| `dashboard_demo.py` | Streamlit UI with 4 tabs |
+
+---
+
 ### License
 
 [MIT License](LICENSE)
