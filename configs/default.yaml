@@ -1,0 +1,22 @@
+# AgentForge Platform Configuration
+compression:
+  default_engine: auto
+  engines:
+    headroom:
+      model: gpt-4
+      compress_user_messages: true
+    claw:
+      stages: [json_tabularize, log_crunch, semantic_dedup, structural_collapse]
+    super:
+      keep_ratio: 0.5
+
+agents:
+  max_concurrent: 5
+  timeout_seconds: 30
+
+netflix:
+  data_path: data/netflix_titles.csv
+
+mcp:
+  transport: stdio
+  port: 8787
