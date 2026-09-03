@@ -547,6 +547,16 @@ print(result["engine"])          # "headroom"
 
 ## Netflix Analysis
 
+### Why Netflix Is in This Project
+
+Netflix is here for two reasons:
+
+**1. The causal inference engine comes from Netflix.** Netflix built an open-source tool called `oci-agent` for causal reasoning (figuring out cause and effect in data). AgentForge uses that pattern in `core/causal/inference.py`. The Actor-Critic approach (one agent proposes, another critiques) was designed by Netflix's engineering team.
+
+**2. The dataset proves the compression works at scale.** The `data/netflix_titles.csv` file has 8,807 titles. That is 1.6 million tokens raw. AgentForge compresses it to 1,508 tokens. That is a 99.9% reduction. It is a real-world example that shows the platform handles large datasets, not just small JSON files.
+
+The platform does not connect to Netflix's API or streaming service. It uses their open-source tools and public data as a demonstration.
+
 ### Full Analysis
 
 ```python
