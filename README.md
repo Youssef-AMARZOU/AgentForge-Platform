@@ -286,6 +286,7 @@ Test coverage:
 Run from project root:
 
 ```bash
+python examples/showcase.py              # Before/after KPIs, cost savings, engine comparison
 python examples/basic_compression.py      # All compression engines
 python examples/agent_orchestration.py    # Router, orchestrator, parallel
 python examples/netflix_analysis.py       # Catalog, recommendations, causal
@@ -295,7 +296,8 @@ python examples/dashboard_demo.py         # Launch Streamlit dashboard
 ```
 
 | Script | Demonstrates |
-|--------|--------------|
+|--------|-------------|
+| **`showcase.py`** | **Before/After comparison, cost savings at scale, engine benchmark** |
 | `basic_compression.py` | Auto, Headroom, Claw, SuperCompress on JSON/logs |
 | `agent_orchestration.py` | Router, Orchestrator-Workers, Parallel map-reduce |
 | `netflix_analysis.py` | Stats, search, filter, recommendations, ATE |
