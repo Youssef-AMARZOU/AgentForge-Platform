@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentForge Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": { "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.18/+esm" } }
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+img{display:block;max-width:100%}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+:root{
+--bg:#0a0a1a;--bg-card:rgba(255,255,255,0.04);--bg-card-solid:#12122a;
+--teal:#00d4aa;--teal-dim:rgba(0,212,170,0.15);--teal-glow:rgba(0,212,170,0.25);
+--blue:#3498db;--blue-dim:rgba(52,152,219,0.15);
+--purple:#9b59b6;--purple-dim:rgba(155,89,182,0.15);
+--red:#e74c3c;--green:#2ecc71;--gold:#f39c12;
+--ink:#ffffff;--ink-soft:#8892b0;--ghost:rgba(255,255,255,0.06);--hairline:rgba(255,255,255,0.08);
+--surface:#0f0f2a;--surface-card:#1a1a3e;
+--radius-card:1.5rem;--radius-card-lg:2rem;--radius-pill:62.5rem;
+}
+html{font-size:16px;scroll-behavior:auto}
+@media(max-width:1920px){html{font-size:0.833333vw}}
+@media(max-width:1440px){html{font-size:1.111111vw}}
+@media(max-width:1024px){html{font-size:1.5625vw}}
+@media(max-width:640px){html{font-size:4.444444vw}}
+body{font-family:"Onest",system-ui,sans-serif;min-height:100vh;background:var(--bg);color:var(--ink);overflow-x:hidden}
+body.locked{position:relative;overflow:hidden;height:100%}
+body.locked>#smooth{visibility:hidden}
+
+/* LOADER */
+.loader{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:transform 0.85s cubic-bezier(0.65,0,0.35,1)}
+.loader.hidden{transform:translateY(-105%);pointer-events:none}
+.loader-wordmark{display:flex;align-items:center;gap:0.75rem;font-size:1.5rem;font-weight:500;letter-spacing:0.15em;opacity:0;transform:translateY(1rem);transition:all 0.6s ease}
+.loader-wordmark.show{opacity:1;transform:translateY(0)}
+.loader-progress{width:10rem;height:2px;background:var(--ghost);overflow:hidden;border-radius:var(--radius-pill)}
+.loader-progress-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--teal),var(--blue));transform:scaleX(0);transform-origin:left;border-radius:var(--radius-pill);transition:transform 1.28s cubic-bezier(0.65,0,0.35,1)}
+
+/* PAGE FRAME */
+#smooth{padding:0.5rem}
+@media(min-width:640px){#smooth{padding:0.75rem}}
+
+/* SECTIONS */
+section{position:relative;isolate;overflow:hidden;border-radius:var(--radius-card-lg)}
+
+/* EYEBROW */
+.eyebrow{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:500;uppercase;letter-spacing:0.22em}
+.eyebrow .dot{width:0.375rem;height:0.375rem;border-radius:var(--radius-pill);background:var(--teal)}
+
+/* GLASS CARD */
+.glass{background:var(--bg-card);border:1px solid var(--hairline);border-radius:var(--radius-card);backdrop-filter:blur(12px);padding:1.25rem}
+
+/* BUTTONS */
+.pill-btn{display:inline-flex;align-items:center;gap:0.5rem;border-radius:var(--radius-pill);padding:0.875rem 1.75rem;font-size:0.875rem;font-weight:500;uppercase;letter-spacing:0.05em;transition:all 0.25s ease}
+.pill-btn.teal{background:var(--teal);color:var(--bg)}.pill-btn.teal:hover{background:#00eabb}
+.pill-btn.solid{background:var(--ink);color:var(--bg)}.pill-btn.solid:hover{background:var(--teal)}
+.pill-btn.outline{border:1px solid var(--hairline);color:var(--ink)}.pill-btn.outline:hover{border-color:var(--teal);color:var(--teal)}
+.pill-btn svg{width:1rem;height:1rem;transition:transform 0.25s ease}
+.pill-btn:hover svg{transform:translateX(0.3rem)}
+
+/* HEADER */
+.site-header{position:absolute;top:0;left:0;right:0;z-index:30;padding:1.5rem 1.5rem 0;color:var(--ink);display:flex;align-items:center}
+@media(min-width:640px){.site-header{padding:2rem 2.5rem 0}}
+.header-left{flex:1;display:flex;gap:2rem}
+.header-left a{font-size:0.75rem;opacity:0.7;transition:opacity 0.2s}.header-left a:hover{opacity:1;color:var(--teal)}
+@media(max-width:1023px){.header-left{display:none}}
+.header-center{flex:1;display:flex;justify-content:center}
+.brand-mark{display:flex;align-items:center;gap:0.5rem;font-size:1rem;font-weight:500;letter-spacing:0.15em}
+.brand-mark svg{width:1.5rem;height:1.5rem;color:var(--teal)}
+.header-right{flex:1;display:flex;justify-content:flex-end;align-items:center;gap:1rem}
+@media(min-width:640px){.header-right{gap:1.25rem}}
+.header-right .book-link{font-size:0.75rem;uppercase;letter-spacing:0.05em;opacity:0.7;transition:all 0.2s;border:1px solid var(--hairline);padding:0.5rem 1rem;border-radius:var(--radius-pill)}
+.header-right .book-link:hover{opacity:1;border-color:var(--teal);color:var(--teal)}
+@media(max-width:639px){.header-right .book-link{display:none}}
+.burger{width:2.5rem;height:2.5rem;border-radius:var(--radius-pill);background:var(--ghost);backdrop-filter:blur(8px);display:grid;place-items:center;gap:5px;transition:background 0.2s}
+.burger:hover{background:var(--teal-dim)}
+.burger span{display:block;width:1rem;height:1px;background:#fff;border-radius:1px}
+
+/* HERO */
+.hero-section{background:linear-gradient(135deg,var(--bg) 0%,#1a1a3e 40%,#0f3460 70%,#16213e 100%);color:var(--ink);display:flex;flex-direction:column;padding:0 1.5rem}
+@media(min-width:640px){.hero-section{padding:0 2.5rem}}
+.hero-content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:8rem 0 4rem}
+.hero-title{font-size:10vw;font-weight:500;letter-spacing:-0.03em;line-height:0.9}
+@media(min-width:640px){.hero-title{font-size:7vw}}
+.hero-title .gradient{background:linear-gradient(90deg,var(--teal),var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-title .word{display:inline-block;overflow:hidden;margin-right:0.2em}
+.hero-title .word-inner{display:inline-block;transform:translateY(115%);opacity:0;transition:transform 1.1s cubic-bezier(0.16,1,0.3,1),opacity 1.1s cubic-bezier(0.16,1,0.3,1)}
+.hero-title.ready .word-inner{transform:translateY(0);opacity:1}
+.hero-subtitle{font-size:1.125rem;color:var(--ink-soft);margin-top:1.5rem;max-width:36rem;line-height:1.6}
+.hero-bottom{margin-top:auto;padding:0 0 2rem;display:flex;flex-direction:column;gap:1.5rem}
+@media(min-width:640px){.hero-bottom{flex-direction:row;justify-content:space-between;align-items:flex-end;padding:0 0 2.5rem}}
+
+/* KPI CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+@media(min-width:640px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+.kpi{text-align:center;padding:1.5rem;border-radius:var(--radius-card);background:var(--bg-card);border:1px solid var(--hairline);backdrop-filter:blur(12px);transition:transform 0.2s,border-color 0.2s}
+.kpi:hover{transform:translateY(-4px);border-color:var(--teal-glow)}
+.kpi .value{font-size:2rem;font-weight:800;letter-spacing:-0.02em}
+.kpi .label{font-size:0.7rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.25rem}
+.kpi.green .value{color:var(--green)}
+.kpi.gold .value{color:var(--gold)}
+.kpi.teal .value{color:var(--teal)}
+
+/* BENCHMARK CARDS */
+.bench-section{padding:5rem 1.5rem;background:var(--bg)}
+@media(min-width:640px){.bench-section{padding:5rem 2.5rem}}
+.bench-grid{display:grid;gap:1.5rem;margin-top:2.5rem}
+@media(min-width:768px){.bench-grid{grid-template-columns:1fr 1fr}}
+.bench-card{border-radius:var(--radius-card);background:var(--bg-card);border:1px solid var(--hairline);overflow:hidden;transition:border-color 0.2s}
+.bench-card:hover{border-color:var(--teal-glow)}
+.bench-header{padding:1rem 1.5rem;background:var(--ghost);border-bottom:1px solid var(--hairline);font-weight:600;font-size:0.9rem}
+.bench-body{padding:1.5rem}
+.bench-metrics{display:flex;gap:2rem;align-items:center;justify-content:center}
+.bench-metric{text-align:center}
+.bench-metric .bm-label{display:block;font-size:0.65rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.1em}
+.bench-metric .bm-value{display:block;font-size:1.5rem;font-weight:800;margin-top:0.25rem}
+.bench-metric .bm-value.red{color:var(--red)}
+.bench-metric .bm-value.green{color:var(--green)}
+.bench-metric .bm-value.gold{color:var(--gold)}
+.bench-arrow{font-size:1.25rem;color:var(--teal)}
+.engine-badge{text-align:center;margin-top:1rem;padding:0.375rem 1rem;border-radius:var(--radius-pill);background:var(--teal-dim);color:var(--teal);font-size:0.75rem;font-weight:600;display:inline-block}
+.engines-row{display:flex;gap:0.5rem;justify-content:center;margin-top:0.75rem;flex-wrap:wrap}
+.engine-chip{padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.7rem;background:var(--ghost);color:var(--ink-soft)}
+.engine-chip.active{background:var(--teal-dim);color:var(--teal)}
+
+/* CHARTS */
+.chart-grid{display:grid;gap:1.5rem;margin-top:2.5rem}
+@media(min-width:768px){.chart-grid{grid-template-columns:1fr 1fr}}
+.chart-box{background:var(--bg-card);border:1px solid var(--hairline);border-radius:var(--radius-card);padding:1.5rem}
+
+/* COST TABLE */
+.cost-section{padding:5rem 1.5rem;background:var(--surface)}
+@media(min-width:640px){.cost-section{padding:5rem 2.5rem}}
+.cost-table{width:100%;border-collapse:collapse;margin-top:2.5rem}
+.cost-table th{text-align:left;padding:0.75rem 1rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-soft);border-bottom:1px solid var(--hairline)}
+.cost-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--ghost)}
+.cost-table tr:hover td{background:var(--ghost)}
+.cost-table .red{color:var(--red)}
+.cost-table .green{color:var(--green)}
+.cost-table .gold{color:var(--gold)}
+
+/* AGENTS */
+.agents-section{padding:5rem 1.5rem;background:var(--bg)}
+@media(min-width:640px){.agents-section{padding:5rem 2.5rem}}
+.agents-table{width:100%;border-collapse:collapse;margin-top:2.5rem}
+.agents-table th{text-align:left;padding:0.75rem 1rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-soft);border-bottom:1px solid var(--hairline)}
+.agents-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--ghost)}
+.agent-badge{padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.75rem;font-weight:600;background:var(--blue-dim);color:var(--blue)}
+
+/* NETFLIX */
+.netflix-section{padding:5rem 1.5rem;background:var(--surface)}
+@media(min-width:640px){.netflix-section{padding:5rem 2.5rem}}
+.netflix-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2.5rem}
+@media(min-width:640px){.netflix-grid{grid-template-columns:repeat(4,1fr)}}
+.netflix-stat{text-align:center;padding:1.5rem;border-radius:var(--radius-card);background:var(--bg-card);border:1px solid var(--hairline)}
+.netflix-stat .ns-value{font-size:2rem;font-weight:800;color:var(--teal)}
+.netflix-stat .ns-label{font-size:0.7rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.25rem}
+.insight-list{list-style:none;margin-top:1.5rem}
+.insight-list li{padding:1rem 1.25rem;margin-bottom:0.5rem;border-radius:var(--radius-card);background:var(--bg-card);border-left:3px solid var(--teal);color:var(--ink-soft);line-height:1.5}
+
+/* TESTIMONIALS (repurposed as features) */
+.features-section{padding:5rem 1.5rem;background:var(--bg)}
+@media(min-width:640px){.features-section{padding:5rem 2.5rem}}
+.features-grid{display:grid;gap:1.25rem;margin-top:2.5rem}
+@media(min-width:768px){.features-grid{grid-template-columns:repeat(3,1fr)}}
+.feature-card{display:flex;flex-direction:column;border-radius:var(--radius-card);background:var(--bg-card);border:1px solid var(--hairline);padding:1.75rem;transition:transform 0.3s,border-color 0.2s}
+.feature-card:hover{transform:translateY(-0.5rem);border-color:var(--teal-glow)}
+.feature-card .fc-icon{width:3rem;height:3rem;border-radius:0.75rem;display:grid;place-items:center;margin-bottom:1rem;font-size:1.5rem}
+.feature-card .fc-icon.teal{background:var(--teal-dim);color:var(--teal)}
+.feature-card .fc-icon.blue{background:var(--blue-dim);color:var(--blue)}
+.feature-card .fc-icon.purple{background:var(--purple-dim);color:var(--purple)}
+.feature-card h3{font-size:1.125rem;font-weight:600}
+.feature-card p{font-size:0.875rem;color:var(--ink-soft);margin-top:0.5rem;line-height:1.6}
+
+/* FOOTER */
+.footer-section{background:var(--bg);border-top:1px solid var(--hairline);padding:3.5rem 1.5rem}
+@media(min-width:640px){.footer-section{padding:4rem 2.5rem}}
+.footer-cta{border-bottom:1px solid var(--hairline);padding-bottom:3.5rem;display:flex;flex-direction:column;gap:1.5rem}
+@media(min-width:640px){.footer-cta{flex-direction:row;justify-content:space-between;align-items:flex-end}}
+.footer-cta-text{font-size:3.75rem;font-weight:500;line-height:0.92;letter-spacing:-0.01em;margin-top:1rem}
+.footer-cta-text .line{display:block;overflow:hidden}
+.footer-cta-text .line-inner{display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s cubic-bezier(0.16,1,0.3,1)}
+.footer-cta-text.ready .line-inner{transform:translateY(0);opacity:1}
+.footer-columns{padding:3.5rem 0;display:grid;gap:2.5rem}
+@media(min-width:768px){.footer-columns{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+.footer-brand .fb-mark{display:flex;align-items:center;gap:0.5rem;font-size:1.125rem;font-weight:500;letter-spacing:0.15em}
+.footer-brand .fb-mark svg{width:1.25rem;height:1.25rem;color:var(--teal)}
+.footer-brand .fb-blurb{font-size:0.875rem;color:var(--ink-soft);margin-top:1rem;max-width:20rem;line-height:1.5}
+.footer-brand address{font-style:normal;margin-top:1.5rem;font-size:0.875rem;color:var(--ink-soft)}
+.footer-nav h4{font-size:0.75rem;font-weight:500;uppercase;letter-spacing:0.2em;color:var(--ink-soft);margin-bottom:1rem}
+.footer-nav ul{font-size:0.875rem;color:var(--ink-soft)}
+.footer-nav li+li{margin-top:0.75rem}
+.footer-nav a:hover{color:var(--teal);text-decoration:underline;text-underline-offset:3px}
+.footer-bottom{border-top:1px solid var(--hairline);padding-top:2rem;font-size:0.875rem;color:var(--ink-soft);display:flex;flex-direction:column;gap:1.25rem;align-items:center}
+@media(min-width:640px){.footer-bottom{flex-direction:row;justify-content:space-between}}
+.footer-social,.footer-legal{display:flex;gap:1.25rem}
+.footer-social a,.footer-legal a{color:var(--ink-soft);transition:color 0.2s}
+.footer-social a:hover,.footer-legal a:hover{color:var(--teal)}
+
+/* MODAL */
+.modal{position:fixed;inset:0;z-index:90;display:flex;align-items:flex-end;justify-content:center;padding:0.75rem;pointer-events:none}
+@media(min-width:640px){.modal{align-items:center;padding:1.5rem}}
+.modal.open{pointer-events:auto}
+.modal-backdrop{position:absolute;inset:0;background:rgba(10,10,26,0.8);backdrop-filter:blur(4px);opacity:0;transition:opacity 0.3s ease}
+.modal.open .modal-backdrop{opacity:1}
+.modal-panel{position:relative;z-index:1;max-height:92svh;overflow-y:auto;border-radius:var(--radius-card-lg);background:var(--bg-card-solid);padding:1.5rem;color:var(--ink);box-shadow:0 25px 80px rgba(0,0,0,0.5);transform:translateY(1.75rem) scale(0.96);opacity:0;transition:all 0.3s cubic-bezier(0.22,1,0.36,1);border:1px solid var(--hairline)}
+@media(min-width:640px){.modal-panel{max-width:32rem;padding:2rem}}
+.modal.open .modal-panel{transform:translateY(0) scale(1);opacity:1}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start}
+.modal-close{width:2.5rem;height:2.5rem;border-radius:var(--radius-pill);background:var(--ghost);display:grid;place-items:center;transition:background 0.2s}
+.modal-close:hover{background:var(--teal-dim)}
+.modal-close svg{width:1.25rem;height:1.25rem;transition:transform 0.3s ease}
+.modal-close:hover svg{transform:rotate(90deg)}
+.modal-title{font-size:2.25rem;font-weight:500;line-height:0.95;margin-top:0.75rem}
+@media(min-width:640px){.modal-title{font-size:3rem}}
+.modal-form{margin-top:1.75rem;display:flex;flex-direction:column;gap:1rem}
+.modal-form label{font-size:0.75rem;font-weight:500;uppercase;letter-spacing:0.18em;color:var(--ink-soft)}
+.modal-form input,.modal-form textarea{width:100%;border-radius:0.75rem;border:1px solid var(--hairline);background:var(--bg);padding:0.75rem 1rem;font-size:0.875rem;font-family:inherit;color:var(--ink);transition:border-color 0.2s}
+.modal-form input:focus,.modal-form textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-dim)}
+.modal-form textarea{resize:vertical}
+.modal-submit{border-radius:var(--radius-pill);background:var(--teal);color:var(--bg);padding:0.875rem 1.75rem;font-size:0.875rem;font-weight:500;uppercase;letter-spacing:0.05em;transition:background 0.2s}
+.modal-submit:hover{background:#00eabb}
+.modal-submit:disabled{opacity:0.5;cursor:not-allowed}
+.modal-success{display:none;margin-top:2rem;border-radius:var(--radius-card);background:var(--ghost);padding:1.5rem;text-align:center}
+.modal-success.show{display:block}
+.modal-success .check-circle{width:3rem;height:3rem;border-radius:var(--radius-pill);background:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto}
+.modal-success .check-circle svg{width:1.5rem;height:1.5rem;color:var(--bg)}
+.modal-success h3{font-size:1.125rem;font-weight:500;margin-top:1rem}
+.modal-success p{font-size:0.875rem;color:var(--ink-soft);margin-top:0.5rem}
+
+/* MENU OVERLAY */
+.menu-overlay{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;pointer-events:none}
+.menu-overlay.open{pointer-events:auto}
+.menu-backdrop{position:absolute;inset:0;background:var(--bg);opacity:0;transition:opacity 0.3s ease}
+.menu-overlay.open .menu-backdrop{opacity:1}
+.menu-panel{position:relative;z-index:1;padding:1.5rem;display:flex;flex-direction:column;height:100%;transform:translateY(-1.5rem);opacity:0;transition:all 0.3s cubic-bezier(0.22,1,0.36,1)}
+@media(min-width:640px){.menu-panel{padding:2.5rem}}
+.menu-overlay.open .menu-panel{transform:translateY(0);opacity:1}
+.menu-top{display:flex;justify-content:space-between;align-items:center}
+.menu-close{width:2.5rem;height:2.5rem;border-radius:var(--radius-pill);background:var(--ghost);display:grid;place-items:center;transition:background 0.2s}
+.menu-close:hover{background:var(--teal-dim)}
+.menu-close svg{width:1.25rem;height:1.25rem;transition:transform 0.3s ease}
+.menu-close:hover svg{transform:rotate(90deg)}
+.menu-nav{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0.5rem}
+.menu-nav a{display:block;font-size:3rem;font-weight:500;line-height:1.1;transition:color 0.2s}
+@media(min-width:640px){.menu-nav a{font-size:4.5rem}}
+.menu-nav a:hover{color:var(--teal)}
+@media(max-width:767px){.menu-nav a{font-size:2.25rem}}
+.menu-bottom{border-top:1px solid var(--hairline);padding-top:2rem;display:flex;flex-direction:column;gap:1.5rem}
+@media(min-width:640px){.menu-bottom{flex-direction:row;justify-content:space-between;align-items:center}}
+
+/* INVIEW */
+.inview{opacity:0;transform:translateY(28px);transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1),transform 0.6s cubic-bezier(0.22,1,0.36,1)}
+.inview.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){
+  .hero-title .word-inner,.footer-cta-text .line-inner{transform:none!important;opacity:1!important;transition:none!important}
+  .inview{opacity:1!important;transform:none!important;transition:none!important}
+  .loader{transition-duration:0.01s!important}
+  .loader-progress-fill{transition-duration:0.2s!important}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-wordmark" id="loaderWordmark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="width:1.75rem;height:1.75rem;color:var(--teal)">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+    </svg>
+    AgentForge
+  </div>
+  <div class="loader-progress"><div class="loader-progress-fill" id="loaderFill"></div></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Get in touch</div>
+        <h2 class="modal-title" id="modalTitle"><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.8s" data-reveal-line>Start</span></span><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.8s cubic-bezier(0.16,1,0.3,1),opacity 0.8s" data-reveal-line>building</span></span></h2>
+      </div>
+      <button class="modal-close" id="modalCloseBtn" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <form class="modal-form" id="modalForm" novalidate>
+      <div><label for="fieldName">Full name</label><input type="text" id="fieldName" placeholder="Your name"></div>
+      <div><label for="fieldEmail">Email</label><input type="email" id="fieldEmail" placeholder="you@company.com"></div>
+      <div><label for="fieldMsg">What are you building?</label><textarea id="fieldMsg" rows="3" placeholder="I need token compression for my LLM pipeline..."></textarea></div>
+      <button type="submit" class="modal-submit" id="modalSubmitBtn">Request access</button>
+    </form>
+    <div class="modal-success" id="modalSuccess">
+      <div class="check-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+      <h3>Request received</h3>
+      <p id="modalSuccessText">Thanks — we'll be in touch shortly.</p>
+      <button class="pill-btn teal" id="modalDoneBtn" style="margin-top:1rem">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-backdrop" id="menuBackdrop"></div>
+  <div class="menu-panel">
+    <div class="menu-top">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="color:var(--teal)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        AgentForge
+      </div>
+      <button class="menu-close" id="menuCloseBtn" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <nav class="menu-nav">
+      <a href="#benchmarks" class="menu-link">Benchmarks</a>
+      <a href="#agents" class="menu-link">Agents</a>
+      <a href="#netflix" class="menu-link">Netflix</a>
+      <a href="#features" class="menu-link">Features</a>
+    </nav>
+    <div class="menu-bottom">
+      <button class="pill-btn teal menu-book">Get Started</button>
+      <div class="footer-social">
+        <a href="#github">GitHub</a>
+        <a href="#docs">Docs</a>
+        <a href="#discord">Discord</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="smooth">
+
+  <!-- HERO -->
+  <section class="hero-section" id="hero" style="min-height:calc(100svh - 1rem);border-radius:var(--radius-card-lg)">
+    <header class="site-header">
+      <div class="header-left">
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#agents">Agents</a>
+      </div>
+      <div class="header-center">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="color:var(--teal)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          AgentForge
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="book-link" id="headerBookBtn">Get Started</button>
+        <button class="burger" id="burgerBtn" aria-label="Open menu"><span></span><span></span></button>
+      </div>
+    </header>
+    <div class="hero-content">
+      <h1 class="hero-title" id="heroTitle">
+        <span class="word"><span class="word-inner gradient">Token</span></span>
+        <span class="word"><span class="word-inner">Compression</span></span>
+        <span class="word"><span class="word-inner">Platform</span></span>
+      </h1>
+      <p class="hero-subtitle inview" data-delay="300" data-config="200,26">Unified compression, multi-agent orchestration, and Netflix-scale analytics. Same data. Same accuracy. Fraction of the cost.</p>
+      <div class="hero-bottom">
+        <div class="kpi-grid inview" data-delay="400" data-config="200,26">
+          <div class="kpi green"><div class="value">-65.1%</div><div class="label">Overall Compression</div></div>
+          <div class="kpi teal"><div class="value">30,897</div><div class="label">Tokens Saved</div></div>
+          <div class="kpi gold"><div class="value">$92.69</div><div class="label">Daily Savings</div></div>
+          <div class="kpi gold"><div class="value">$2,780</div><div class="label">Monthly Savings</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENCHMARKS -->
+  <section class="bench-section" id="benchmarks" style="margin-top:0.75rem">
+    <div class="eyebrow"><span class="dot"></span> Compression Benchmarks</div>
+    <h2 style="font-size:2.5rem;font-weight:500;letter-spacing:-0.01em;margin-top:1rem"><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>Before vs</span></span><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>After comparison</span></span></h2>
+    <div class="bench-grid">
+      <div class="bench-card inview" data-delay="0" data-config="180,26">
+        <div class="bench-header">JSON API Response (200 records)</div>
+        <div class="bench-body">
+          <div class="bench-metrics">
+            <div class="bench-metric"><span class="bm-label">Before</span><span class="bm-value red">15,553</span></div>
+            <div class="bench-arrow">&rarr;</div>
+            <div class="bench-metric"><span class="bm-label">After</span><span class="bm-value green">8,105</span></div>
+            <div class="bench-metric"><span class="bm-label">Savings</span><span class="bm-value gold">-47.9%</span></div>
+          </div>
+          <div style="text-align:center"><span class="engine-badge">headroom</span></div>
+          <div class="engines-row">
+            <span class="engine-chip active">Auto: -47.9%</span>
+            <span class="engine-chip">Claw: -0.0%</span>
+            <span class="engine-chip">Super: -0.0%</span>
+          </div>
+        </div>
+      </div>
+      <div class="bench-card inview" data-delay="120" data-config="180,26">
+        <div class="bench-header">Server Logs (500 lines)</div>
+        <div class="bench-body">
+          <div class="bench-metrics">
+            <div class="bench-metric"><span class="bm-label">Before</span><span class="bm-value red">31,899</span></div>
+            <div class="bench-arrow">&rarr;</div>
+            <div class="bench-metric"><span class="bm-label">After</span><span class="bm-value green">8,450</span></div>
+            <div class="bench-metric"><span class="bm-label">Savings</span><span class="bm-value gold">-73.5%</span></div>
+          </div>
+          <div style="text-align:center"><span class="engine-badge">claw_compactor</span></div>
+          <div class="engines-row">
+            <span class="engine-chip">Auto: -73.5%</span>
+            <span class="engine-chip active">Claw: -73.5%</span>
+            <span class="engine-chip">Super: -48.4%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box inview" data-delay="200" data-config="200,26"><canvas id="chart1"></canvas></div>
+      <div class="chart-box inview" data-delay="300" data-config="200,26"><canvas id="chart2"></canvas></div>
+    </div>
+  </section>
+
+  <!-- COST AT SCALE -->
+  <section class="cost-section" id="cost" style="margin-top:0.75rem">
+    <div class="eyebrow"><span class="dot"></span> Cost at Scale</div>
+    <h2 style="font-size:2.5rem;font-weight:500;letter-spacing:-0.01em;margin-top:1rem"><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>Real savings</span></span><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>at production scale</span></span></h2>
+    <table class="cost-table inview" data-delay="0" data-config="200,26">
+      <thead><tr><th>Requests / day</th><th>Before</th><th>After</th><th>Saved / day</th><th>Saved / month</th></tr></thead>
+      <tbody>
+        <tr><td>100</td><td class="red">$14.24</td><td class="green">$4.97</td><td class="gold">$9.27</td><td class="gold">$278.07</td></tr>
+        <tr><td>1,000</td><td class="red">$142.36</td><td class="green">$49.66</td><td class="gold">$92.69</td><td class="gold">$2,780.73</td></tr>
+        <tr><td>5,000</td><td class="red">$711.78</td><td class="green">$248.33</td><td class="gold">$463.46</td><td class="gold">$13,903.65</td></tr>
+        <tr><td>10,000</td><td class="red">$1,423.56</td><td class="green">$496.65</td><td class="gold">$926.91</td><td class="gold">$27,807.30</td></tr>
+        <tr><td>50,000</td><td class="red">$7,117.80</td><td class="green">$2,483.25</td><td class="gold">$4,634.55</td><td class="gold">$139,036.50</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- AGENTS -->
+  <section class="agents-section" id="agents" style="margin-top:0.75rem">
+    <div class="eyebrow"><span class="dot"></span> Agent Orchestration</div>
+    <h2 style="font-size:2.5rem;font-weight:500;letter-spacing:-0.01em;margin-top:1rem"><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>Router, Orchestrator</span></span><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>and Parallel workers</span></span></h2>
+    <table class="agents-table inview" data-delay="0" data-config="200,26">
+      <thead><tr><th>Query</th><th>Routed To</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Analyze Netflix catalog for top genres and content distribution</td><td><span class="agent-badge">CompressionExpert</span></td><td style="color:var(--green)">OK</td></tr>
+        <tr><td>Compress the server logs and identify error patterns</td><td><span class="agent-badge">CompressionExpert</span></td><td style="color:var(--green)">OK</td></tr>
+        <tr><td>Summarize the dataset statistics for quarterly report</td><td><span class="agent-badge" style="background:var(--blue-dim);color:var(--blue)">DataAnalyst</span></td><td style="color:var(--green)">OK</td></tr>
+      </tbody>
+    </table>
+    <div style="display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap" class="inview" data-delay="100" data-config="200,26">
+      <div class="glass" style="flex:1;min-width:14rem;text-align:center;padding:1.5rem">
+        <div style="font-size:2rem;font-weight:800;color:var(--teal)">Router</div>
+        <div style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.25rem">Keyword-based intelligent routing</div>
+      </div>
+      <div class="glass" style="flex:1;min-width:14rem;text-align:center;padding:1.5rem">
+        <div style="font-size:2rem;font-weight:800;color:var(--blue)">Orchestrator</div>
+        <div style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.25rem">Worker delegation and result fusion</div>
+      </div>
+      <div class="glass" style="flex:1;min-width:14rem;text-align:center;padding:1.5rem">
+        <div style="font-size:2rem;font-weight:800;color:var(--purple)">Parallel</div>
+        <div style="font-size:0.8rem;color:var(--ink-soft);margin-top:0.25rem">Concurrent map-reduce execution</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NETFLIX -->
+  <section class="netflix-section" id="netflix" style="margin-top:0.75rem">
+    <div class="eyebrow"><span class="dot"></span> Netflix Analysis</div>
+    <h2 style="font-size:2.5rem;font-weight:500;letter-spacing:-0.01em;margin-top:1rem"><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>8,807 titles</span></span><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>analyzed</span></span></h2>
+    <div class="netflix-grid inview" data-delay="0" data-config="200,26">
+      <div class="netflix-stat"><div class="ns-value">8,807</div><div class="ns-label">Total Titles</div></div>
+      <div class="netflix-stat"><div class="ns-value">6,131</div><div class="ns-label">Movies</div></div>
+      <div class="netflix-stat"><div class="ns-value">2,676</div><div class="ns-label">TV Shows</div></div>
+      <div class="netflix-stat"><div class="ns-value">748</div><div class="ns-label">Countries</div></div>
+    </div>
+    <ul class="insight-list inview" data-delay="100" data-config="200,26">
+      <li>United States dominates with 3,690 titles across all genres</li>
+      <li>Movies outnumber TV Shows by 2.3x ratio</li>
+      <li>Peak content year: 2017 with 767 movies released</li>
+      <li>Causal ATE (type&rarr;year): -3.48 years average age difference</li>
+    </ul>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="features" style="margin-top:0.75rem">
+    <div class="eyebrow"><span class="dot"></span> Platform Features</div>
+    <h2 style="font-size:2.5rem;font-weight:500;letter-spacing:-0.01em;margin-top:1rem"><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>Everything you</span></span><span style="display:block;overflow:hidden"><span style="display:inline-block;transform:translateY(115%);opacity:0;transition:transform 0.95s cubic-bezier(0.16,1,0.3,1),opacity 0.95s" data-reveal-line>need in one place</span></span></h2>
+    <div class="features-grid">
+      <div class="feature-card inview" data-delay="0" data-config="180,26">
+        <div class="fc-icon teal">&#9889;</div>
+        <h3>Token Compression</h3>
+        <p>Headroom ML, Claw 14-stage, and SuperCompress query-aware engines. Auto-selects the best for your data.</p>
+      </div>
+      <div class="feature-card inview" data-delay="120" data-config="180,26">
+        <div class="fc-icon blue">&#9881;</div>
+        <h3>MCP Server</h3>
+        <p>FastMCP-powered tools: compress_text, compare_engines, query_aware_compress, analyze_netflix, get_stats.</p>
+      </div>
+      <div class="feature-card inview" data-delay="240" data-config="180,26">
+        <div class="fc-icon purple">&#9733;</div>
+        <h3>Agent Orchestration</h3>
+        <p>Router dispatches to specialized workers. Orchestrator-Workers pattern with parallel map-reduce execution.</p>
+      </div>
+      <div class="feature-card inview" data-delay="0" data-config="180,26">
+        <div class="fc-icon teal">&#9632;</div>
+        <h3>Netflix Analytics</h3>
+        <p>Catalog analysis, content search, country/year filtering, recommendation engine, and causal inference.</p>
+      </div>
+      <div class="feature-card inview" data-delay="120" data-config="180,26">
+        <div class="fc-icon blue">&#9670;</div>
+        <h3>Causal Inference</h3>
+        <p>Actor-Critic pattern: Actor generates treatment specs, Critic validates, iterates to find optimal interventions.</p>
+      </div>
+      <div class="feature-card inview" data-delay="240" data-config="180,26">
+        <div class="fc-icon purple">&#9650;</div>
+        <h3>85 Tests Passing</h3>
+        <p>Comprehensive test suite covering compression, agents, Netflix analysis, causal inference, and MCP tools.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer-section" id="contact" style="margin-top:0.75rem;border-radius:var(--radius-card-lg)">
+    <div class="footer-cta">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Open Source</div>
+        <p class="footer-cta-text" id="footerCtaText"><span class="line"><span class="line-inner">Start</span></span><span class="line"><span class="line-inner">compressing</span></span></p>
+      </div>
+      <button class="pill-btn teal inview" data-delay="150" data-config="200,24" id="footerBookBtn">View on GitHub</button>
+    </div>
+    <div class="footer-columns">
+      <div class="footer-brand">
+        <div class="fb-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="color:var(--teal)"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          AgentForge
+        </div>
+        <p class="fb-blurb">Unified token compression, multi-agent orchestration, and Netflix-scale analytics. Open source, production ready.</p>
+        <address>
+          <a href="https://github.com/Youssef-AMARZOU/AgentForge-Platform">github.com/Youssef-AMARZOU</a><br>
+          <span style="opacity:0.5">pip install agentforge-platform</span>
+        </address>
+      </div>
+      <nav class="footer-nav">
+        <h4>Engine</h4>
+        <ul><li><a href="#benchmarks">Headroom ML</a></li><li><a href="#benchmarks">Claw Compactor</a></li><li><a href="#benchmarks">SuperCompress</a></li><li><a href="#benchmarks">Auto Select</a></li></ul>
+      </nav>
+      <nav class="footer-nav">
+        <h4>Agents</h4>
+        <ul><li><a href="#agents">Router</a></li><li><a href="#agents">Orchestrator</a></li><li><a href="#agents">Parallel</a></li><li><a href="#agents">DataAnalyst</a></li></ul>
+      </nav>
+      <nav class="footer-nav">
+        <h4>Resources</h4>
+        <ul><li><a href="#features">Documentation</a></li><li><a href="#features">Examples</a></li><li><a href="#features">Tests</a></li><li><a href="#contact">Contact</a></li></ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 AgentForge Platform. Open source under MIT.</span>
+      <div class="footer-social"><a href="#github">GitHub</a><a href="#docs">Docs</a><a href="#discord">Discord</a></div>
+      <div class="footer-legal"><a href="#license">License</a><a href="#terms">Terms</a></div>
+    </div>
+  </footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script type="module">
+import Lenis from "lenis";
+
+const isMobile = window.innerWidth <= 768;
+const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const html = document.documentElement;
+const body = document.body;
+
+/* ---- Adaptive rem ---- */
+const FONT_BASE = 16, BASE_W = 1920, COEF = 0.6666;
+function updateRem() {
+  const w = innerWidth;
+  if (w > BASE_W) {
+    const r = ((BASE_W - w) / BASE_W) * 100 * COEF;
+    const s = FONT_BASE - (FONT_BASE * r) / 100;
+    if (s > FONT_BASE) html.style.fontSize = s + "px"; else html.style.removeProperty("font-size");
+  } else {
+    html.style.removeProperty("font-size");
+  }
+}
+updateRem();
+window.addEventListener("resize", updateRem);
+
+/* ---- Lenis ---- */
+const lenis = new Lenis({ smoothWheel: true });
+function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+function stopScroll() { lenis.stop(); body.classList.add("locked"); window.scrollTo(0, 0); }
+function startScroll() { lenis.start(); body.classList.remove("locked"); }
+stopScroll();
+
+/* ---- Loader ---- */
+const MIN_VISIBLE = prefersReduced ? 200 : 1400;
+const MAX_VISIBLE = prefersReduced ? 300 : 2600;
+const EXIT_MS = prefersReduced ? 10 : 850;
+const loader = document.getElementById("loader");
+const loaderWordmark = document.getElementById("loaderWordmark");
+const loaderFill = document.getElementById("loaderFill");
+let ready = false;
+
+setTimeout(() => loaderWordmark.classList.add("show"), 60);
+setTimeout(() => { loaderFill.style.transform = "scaleX(1)"; }, 120);
+
+let loadFired = false;
+function onLoad() { if (loadFired) return; loadFired = true; startLoaderCountdown(); }
+window.addEventListener("load", onLoad);
+setTimeout(onLoad, MAX_VISIBLE);
+
+function startLoaderCountdown() {
+  setTimeout(() => {
+    ready = true;
+    loader.classList.add("hidden");
+    startScroll();
+    revealHero();
+    setTimeout(() => loader.remove(), EXIT_MS + 50);
+  }, MIN_VISIBLE);
+}
+
+/* ---- Hero reveal ---- */
+function revealHero() {
+  const title = document.getElementById("heroTitle");
+  const words = title.querySelectorAll(".word-inner");
+  title.classList.add("ready");
+  words.forEach((w, i) => { w.style.transitionDelay = (i * 140) + "ms"; });
+}
+
+/* ---- InView observer ---- */
+const inviewObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    inviewObserver.unobserve(el);
+    const delay = parseInt(el.dataset.delay || "0");
+    setTimeout(() => {
+      el.style.transition = `opacity 0.6s cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 0.6s cubic-bezier(0.22,1,0.36,1) ${delay}ms`;
+      el.classList.add("visible");
+    }, 10);
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll(".inview").forEach(el => inviewObserver.observe(el));
+
+/* ---- Line reveals ---- */
+function revealLines(container) {
+  if (!container) return;
+  container.querySelectorAll("[data-reveal-line]").forEach((s, i) => {
+    s.style.transitionDelay = (i * 120) + "ms";
+    s.style.transform = "translateY(0)";
+    s.style.opacity = "1";
+  });
+}
+const lineObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { revealLines(e.target); lineObserver.unobserve(e.target); } });
+}, { threshold: 0.2 });
+document.querySelectorAll("h2").forEach(el => {
+  if (el.querySelector("[data-reveal-line]")) lineObserver.observe(el);
+});
+
+/* ---- Footer CTA text reveal ---- */
+const footerCtaObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    footerCtaObserver.unobserve(footerCta);
+    footerCta.classList.add("ready");
+    footerCta.querySelectorAll(".line-inner").forEach((l, i) => { l.style.transitionDelay = (i * 120) + "ms"; });
+  });
+}, { threshold: 0.3 });
+const footerCta = document.getElementById("footerCtaText");
+footerCtaObserver.observe(footerCta);
+
+/* ---- Charts ---- */
+function initCharts() {
+  const labels = ["JSON API", "Server Logs"];
+  const before = [15553, 31899];
+  const after = [8105, 8450];
+  const savings = [47.9, 73.5];
+
+  const chartOpts = {
+    responsive: true,
+    plugins: { legend: { labels: { color: "#8892b0" } } },
+    scales: {
+      x: { ticks: { color: "#8892b0" }, grid: { color: "rgba(255,255,255,0.05)" } },
+      y: { ticks: { color: "#8892b0" }, grid: { color: "rgba(255,255,255,0.05)" } }
+    }
+  };
+
+  if (document.getElementById("chart1")) {
+    new Chart(document.getElementById("chart1"), {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [
+          { label: "Before", data: before, backgroundColor: "rgba(231,76,60,0.7)", borderRadius: 6 },
+          { label: "After", data: after, backgroundColor: "rgba(46,204,113,0.7)", borderRadius: 6 }
+        ]
+      },
+      options: { ...chartOpts, plugins: { ...chartOpts.plugins, title: { display: true, text: "Tokens: Before vs After", color: "#e0e0e0" } } }
+    });
+  }
+
+  if (document.getElementById("chart2")) {
+    new Chart(document.getElementById("chart2"), {
+      type: "doughnut",
+      data: {
+        labels,
+        datasets: [{ data: savings, backgroundColor: ["#00d4aa", "#3498db"], borderWidth: 0, borderRadius: 4 }]
+      },
+      options: { responsive: true, plugins: { title: { display: true, text: "Compression % by Test", color: "#e0e0e0" }, legend: { labels: { color: "#8892b0" } } } }
+    });
+  }
+}
+const chartObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { initCharts(); chartObserver.disconnect(); } });
+}, { threshold: 0.1 });
+chartObserver.observe(document.getElementById("benchmarks"));
+
+/* ---- Modal ---- */
+const modal = document.getElementById("modal");
+const modalBackdrop = document.getElementById("modalBackdrop");
+const modalCloseBtn = document.getElementById("modalCloseBtn");
+const modalForm = document.getElementById("modalForm");
+const modalSubmitBtn = document.getElementById("modalSubmitBtn");
+const modalSuccess = document.getElementById("modalSuccess");
+const modalSuccessText = document.getElementById("modalSuccessText");
+const modalDoneBtn = document.getElementById("modalDoneBtn");
+const fieldName = document.getElementById("fieldName");
+
+function openModal() { modal.classList.add("open"); stopScroll(); setTimeout(() => fieldName.focus(), 120); }
+function closeModal() { modal.classList.remove("open"); startScroll(); setTimeout(() => { modalForm.reset(); modalForm.style.display = ""; modalSuccess.classList.remove("show"); }, 350); }
+document.getElementById("headerBookBtn").addEventListener("click", openModal);
+document.getElementById("footerBookBtn").addEventListener("click", openModal);
+document.querySelector(".menu-book").addEventListener("click", () => { closeMenu(); setTimeout(openModal, 300); });
+modalBackdrop.addEventListener("click", closeModal);
+modalCloseBtn.addEventListener("click", closeModal);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+
+modalForm.addEventListener("submit", e => {
+  e.preventDefault();
+  modalSubmitBtn.disabled = true;
+  modalSubmitBtn.textContent = "Sending...";
+  setTimeout(() => {
+    modalForm.style.display = "none";
+    modalSuccess.classList.add("show");
+    const name = fieldName.value.trim();
+    modalSuccessText.textContent = name ? `Thanks, ${name} -- we'll be in touch shortly.` : "Thanks -- we'll be in touch shortly.";
+    modalSubmitBtn.disabled = false;
+    modalSubmitBtn.textContent = "Request access";
+  }, 800);
+});
+modalDoneBtn.addEventListener("click", closeModal);
+
+/* ---- Menu ---- */
+const menuOverlay = document.getElementById("menuOverlay");
+const menuBackdrop = document.getElementById("menuBackdrop");
+const menuCloseBtn = document.getElementById("menuCloseBtn");
+const burgerBtn = document.getElementById("burgerBtn");
+
+function openMenu() { menuOverlay.classList.add("open"); stopScroll(); }
+function closeMenu() { menuOverlay.classList.remove("open"); startScroll(); }
+burgerBtn.addEventListener("click", openMenu);
+menuBackdrop.addEventListener("click", closeMenu);
+menuCloseBtn.addEventListener("click", closeMenu);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && menuOverlay.classList.contains("open")) closeMenu(); });
+
+document.querySelectorAll(".menu-link").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute("href"));
+    closeMenu();
+    setTimeout(() => { if (target) lenis.scrollTo(target, { offset: -20 }); }, 300);
+  });
+});
+</script>
+</body>
+</html>
