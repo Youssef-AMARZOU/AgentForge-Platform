@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentForge Platform - Report</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0a0a1a; color: #e0e0e0; min-height: 100vh; }
+
+.hero {
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 40%, #0f3460 70%, #16213e 100%);
+    padding: 60px 40px 40px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,212,170,0.2);
+}
+.hero h1 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px;
+    background: linear-gradient(90deg, #00d4aa, #3498db, #9b59b6);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { color: #8892b0; font-size: 1.1rem; margin-top: 8px; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    max-width: 1200px; margin: -40px auto 40px; padding: 0 40px; position: relative; z-index: 2; }
+.kpi { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 24px; text-align: center;
+    backdrop-filter: blur(10px); transition: transform 0.2s; }
+.kpi:hover { transform: translateY(-4px); border-color: rgba(0,212,170,0.3); }
+.kpi .value { font-size: 2rem; font-weight: 800; }
+.kpi .label { font-size: 0.8rem; color: #8892b0; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+.section { max-width: 1200px; margin: 0 auto; padding: 0 40px 60px; }
+.section-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 24px; padding-bottom: 8px;
+    border-bottom: 2px solid rgba(0,212,170,0.3); display: inline-block; }
+
+.card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; margin-bottom: 20px; overflow: hidden; }
+.card-header { padding: 16px 24px; font-weight: 700; font-size: 1rem;
+    background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.card-body { padding: 24px; }
+
+.metric-row { display: flex; align-items: center; gap: 24px; justify-content: center; }
+.metric { text-align: center; }
+.metric-label { display: block; font-size: 0.75rem; color: #8892b0; text-transform: uppercase; letter-spacing: 1px; }
+.metric-value { display: block; font-size: 1.8rem; font-weight: 800; margin-top: 4px; }
+.metric-arrow { font-size: 1.5rem; color: #00d4aa; }
+
+.engine-badge { text-align: center; margin-top: 16px; padding: 6px 16px; border-radius: 20px;
+    background: rgba(0,212,170,0.1); color: #00d4aa; font-size: 0.8rem; font-weight: 600; display: inline-block; }
+.engines-row { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+.engine-chip { padding: 4px 12px; border-radius: 12px; font-size: 0.75rem;
+    background: rgba(255,255,255,0.05); color: #8892b0; }
+.engine-chip.active { background: rgba(0,212,170,0.15); color: #00d4aa; }
+
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 12px 16px; font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 1px; color: #8892b0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+.chart-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; padding: 24px; }
+
+.red { color: #e74c3c; }
+.green { color: #2ecc71; }
+.gold { color: #f39c12; }
+
+.agent-badge { padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
+    background: rgba(52,152,219,0.15); color: #3498db; }
+
+.insight-list { list-style: none; }
+.insight-list li { padding: 12px 16px; margin-bottom: 8px; border-radius: 12px;
+    background: rgba(255,255,255,0.03); border-left: 3px solid #00d4aa; }
+
+.footer { text-align: center; padding: 40px; color: #555; font-size: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.05); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>AgentForge Platform</h1>
+    <p>Before vs After — Token Compression Comparison</p>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="value green">-78.7%</div>
+        <div class="label">Overall Compression</div>
+    </div>
+    <div class="kpi">
+        <div class="value green">16,852</div>
+        <div class="label">Tokens Saved</div>
+    </div>
+    <div class="kpi">
+        <div class="value gold">$50.56</div>
+        <div class="label">Daily Savings (1K req)</div>
+    </div>
+    <div class="kpi">
+        <div class="value gold">$1516.68</div>
+        <div class="label">Monthly Savings (1K req)</div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Compression Benchmarks</div>
+    
+        <div class="card">
+            <div class="card-header">JSON API (200 records)</div>
+            <div class="card-body">
+                <div class="metric-row">
+                    <div class="metric">
+                        <span class="metric-label">Before</span>
+                        <span class="metric-value red">7,618</span>
+                    </div>
+                    <div class="metric-arrow">→</div>
+                    <div class="metric">
+                        <span class="metric-label">After</span>
+                        <span class="metric-value green">3,638</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Savings</span>
+                        <span class="metric-value gold">-52.3%</span>
+                    </div>
+                </div>
+                <div class="engine-badge">headroom</div>
+                <div class="engines-row">
+                    <span class="engine-chip active">Auto: 52.3%</span><span class="engine-chip ">Claw: 0.0%</span><span class="engine-chip ">Super: 0.0%</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Server Logs (500 lines)</div>
+            <div class="card-body">
+                <div class="metric-row">
+                    <div class="metric">
+                        <span class="metric-label">Before</span>
+                        <span class="metric-value red">11,999</span>
+                    </div>
+                    <div class="metric-arrow">→</div>
+                    <div class="metric">
+                        <span class="metric-label">After</span>
+                        <span class="metric-value green">27</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Savings</span>
+                        <span class="metric-value gold">-99.8%</span>
+                    </div>
+                </div>
+                <div class="engine-badge">claw_compactor</div>
+                <div class="engines-row">
+                    <span class="engine-chip active">Auto: 99.8%</span><span class="engine-chip active">Claw: 99.8%</span><span class="engine-chip ">Super: 50.0%</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Source Code (100 funcs)</div>
+            <div class="card-body">
+                <div class="metric-row">
+                    <div class="metric">
+                        <span class="metric-label">Before</span>
+                        <span class="metric-value red">1,799</span>
+                    </div>
+                    <div class="metric-arrow">→</div>
+                    <div class="metric">
+                        <span class="metric-label">After</span>
+                        <span class="metric-value green">899</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Savings</span>
+                        <span class="metric-value gold">-50.0%</span>
+                    </div>
+                </div>
+                <div class="engine-badge">supercompress_style</div>
+                <div class="engines-row">
+                    <span class="engine-chip ">Auto: 22.0%</span><span class="engine-chip ">Claw: 22.0%</span><span class="engine-chip active">Super: 50.0%</span>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Cost at Scale</div>
+    <table>
+        <thead>
+            <tr><th>Requests / day</th><th>Before</th><th>After</th><th>Saved / day</th><th>Saved / month</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>100</td>
+            <td class="red">$6.42</td>
+            <td class="green">$1.37</td>
+            <td class="gold">$5.06</td>
+            <td class="gold">$151.67</td>
+        </tr>
+        <tr>
+            <td>1,000</td>
+            <td class="red">$64.25</td>
+            <td class="green">$13.69</td>
+            <td class="gold">$50.56</td>
+            <td class="gold">$1516.68</td>
+        </tr>
+        <tr>
+            <td>5,000</td>
+            <td class="red">$321.24</td>
+            <td class="green">$68.46</td>
+            <td class="gold">$252.78</td>
+            <td class="gold">$7583.40</td>
+        </tr>
+        <tr>
+            <td>10,000</td>
+            <td class="red">$642.48</td>
+            <td class="green">$136.92</td>
+            <td class="gold">$505.56</td>
+            <td class="gold">$15166.80</td>
+        </tr>
+        <tr>
+            <td>50,000</td>
+            <td class="red">$3212.40</td>
+            <td class="green">$684.60</td>
+            <td class="gold">$2527.80</td>
+            <td class="gold">$75834.00</td>
+        </tr></tbody>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Visual Comparison</div>
+    <div class="chart-grid">
+        <div class="chart-box"><canvas id="chart1"></canvas></div>
+        <div class="chart-box"><canvas id="chart2"></canvas></div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section-title">Agent Orchestration</div>
+    <table>
+        <thead><tr><th>Query</th><th>Routed To</th><th>Status</th></tr></thead>
+        <tbody>
+        <tr>
+            <td>Analyze Netflix catalog and compress results</td>
+            <td><span class="agent-badge">CompressionExpert</span></td>
+            <td class="green">completed</td>
+        </tr>
+        <tr>
+            <td>Compress server logs and find errors</td>
+            <td><span class="agent-badge">CompressionExpert</span></td>
+            <td class="green">completed</td>
+        </tr>
+        <tr>
+            <td>Summarize dataset statistics</td>
+            <td><span class="agent-badge">DataAnalyst</span></td>
+            <td class="green">completed</td>
+        </tr></tbody>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-title">Netflix Analysis (8,807 titles)</div>
+    <div class="kpi-grid" style="margin: 0 0 24px;">
+        <div class="kpi"><div class="value">8,807</div><div class="label">Total Titles</div></div>
+        <div class="kpi"><div class="value">6,131</div><div class="label">Movies</div></div>
+        <div class="kpi"><div class="value">2,676</div><div class="label">TV Shows</div></div>
+        <div class="kpi"><div class="value">748</div><div class="label">Countries</div></div>
+    </div>
+    <ul class="insight-list"><li>Movies (6131) outnumber TV Shows (2676) by 2.3x</li><li>Peak content year: 2017 with 767 movies</li><li>Top producing country: United States (3690 titles)</li></ul>
+</div>
+
+<div class="footer">
+    AgentForge Platform — Compression + Multi-Agent Orchestration + Netflix Analysis
+</div>
+
+<script>
+const labels = ["JSON API", "Server Logs", "Source Code"];
+const before = [7618, 11999, 1799];
+const after = [3638, 27, 899];
+const savings = [52.3, 99.8, 50.0];
+
+new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            { label: 'Before', data: before, backgroundColor: 'rgba(231,76,60,0.7)', borderRadius: 6 },
+            { label: 'After', data: after, backgroundColor: 'rgba(46,204,113,0.7)', borderRadius: 6 }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { title: { display: true, text: 'Tokens: Before vs After', color: '#e0e0e0' },
+            legend: { labels: { color: '#8892b0' } } },
+        scales: {
+            x: { ticks: { color: '#8892b0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+            y: { ticks: { color: '#8892b0' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chart2'), {
+    type: 'doughnut',
+    data: {
+        labels: labels,
+        datasets: [{ data: savings, backgroundColor: ['#00d4aa','#3498db','#9b59b6'],
+            borderWidth: 0, borderRadius: 4 }]
+    },
+    options: {
+        responsive: true,
+        plugins: { title: { display: true, text: 'Compression % by Test', color: '#e0e0e0' },
+            legend: { labels: { color: '#8892b0' } } }
+    }
+});
+</script>
+</body>
+</html>
