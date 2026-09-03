@@ -33,6 +33,172 @@ AgentForge compresses LLM inputs by 50-99% before sending them to the API. It co
 
 ---
 
+## For Everyone: What Is This and Why Does It Matter
+
+### The Problem in Plain Words
+
+When you use AI tools like ChatGPT, Claude, or any LLM-based app, you pay for every word (called a "token") you send to the AI. The more words you send, the more it costs.
+
+Imagine you have a spreadsheet with 200 rows of user data. You want the AI to analyze it. You copy-paste the whole thing into the AI. That is 15,553 tokens. At $0.03 per 1,000 tokens, each request costs you about $0.05.
+
+Now imagine you send 1,000 requests per day. That is $46 per day. $1,380 per month. Just for one spreadsheet.
+
+### What AgentForge Does
+
+AgentForge takes your data and shrinks it before sending it to the AI. It removes redundant information, compresses patterns, and keeps only what matters. The AI gets the same information, but in fewer words.
+
+Your 15,553 tokens become 8,105 tokens. The AI still understands everything. But you pay 48% less.
+
+### Who Is This For
+
+- **Developers** building AI apps who want to reduce API costs
+- **Data teams** sending large datasets to LLMs for analysis
+- **Startups** watching their cloud bills grow
+- **Anyone** using AI APIs and paying per token
+
+### What You Need
+
+- A computer (Windows, Mac, or Linux)
+- Python 3.10 or newer (the programming language)
+- 5 minutes of your time
+
+---
+
+## Step-by-Step Installation (For First-Time Users)
+
+### Step 1: Install Python
+
+If you do not have Python installed:
+
+1. Go to https://www.python.org/downloads/
+2. Click the big yellow "Download Python 3.x.x" button
+3. Run the installer
+4. **Important**: Check the box that says "Add Python to PATH" before clicking Install
+5. Click "Install Now"
+
+To check it worked, open a terminal (Command Prompt on Windows) and type:
+
+```bash
+python --version
+```
+
+You should see something like `Python 3.11.0`. If you see that, you are good.
+
+### Step 2: Download AgentForge
+
+Open a terminal and run these commands one by one:
+
+```bash
+git clone https://github.com/Youssef-AMARZOU/AgentForge-Platform.git
+cd AgentForge-Platform
+```
+
+If you do not have `git`, you can download the ZIP from GitHub:
+1. Go to https://github.com/Youssef-AMARZOU/AgentForge-Platform
+2. Click the green "Code" button
+3. Click "Download ZIP"
+4. Extract the ZIP
+5. Open a terminal in the extracted folder
+
+### Step 3: Install Dependencies
+
+```bash
+pip install -e .
+```
+
+This installs everything AgentForge needs. It takes about 1-2 minutes.
+
+### Step 4: Run It
+
+```bash
+python examples/showcase.py
+```
+
+You will see output like this:
+
+```
++----------------------------------------------------------------------+
+| AgentForge Platform                                                  |
+| Before vs After - Token Compression Comparison                       |
++----------------------------------------------------------------------+
+
+                   JSON API Response (150 users)
++------------------------------------------------------------------+
+| Metric              |   Before  |    After   |      Savings |
+|---------------------+-----------+------------+--------------|
+| Tokens              |    15,553 |      8,105 |       -47.9% |
+| Cost / request      |   $0.0467 |    $0.0243 |       -47.9% |
+| Cost / 1K req       |    $46.66 |     $24.32 |   $22.34/day |
++------------------------------------------------------------------+
+```
+
+### What Just Happened
+
+1. AgentForge took a fake JSON file with 200 user records
+2. It counted how many tokens that file would use (15,553)
+3. It compressed the file using the best engine (Headroom)
+4. The compressed version only needs 8,105 tokens
+5. That is a 47.9% reduction
+6. You would save $22.34 per day if you sent this 1,000 times
+
+### Step 5: Try Other Examples
+
+```bash
+# See all compression engines
+python examples/basic_compression.py
+
+# See how agents route tasks
+python examples/agent_orchestration.py
+
+# Analyze Netflix data
+python examples/netflix_analysis.py
+
+# Start the MCP server
+python examples/mcp_server.py
+```
+
+---
+
+## Understanding the Output
+
+When you run `showcase.py`, here is what each number means:
+
+| Term | What It Means |
+|------|---------------|
+| **Tokens** | Words. AI counts words to decide the price. Fewer words = less money. |
+| **Before** | How many tokens your original data uses |
+| **After** | How many tokens the compressed version uses |
+| **Savings** | The percentage reduction. -47.9% means you pay 47.9% less. |
+| **Cost / request** | How much one request costs in dollars |
+| **Cost / 1K req** | How much 1,000 requests cost per day |
+| **Engine** | Which compression method was used (Headroom, Claw, or SuperCompress) |
+
+### Example Walkthrough
+
+```
+Tokens:    15,553 -> 8,105 = -47.9%
+```
+
+This means:
+- Your original data has 15,553 tokens
+- After compression, it has 8,105 tokens
+- You saved 7,448 tokens (47.9%)
+- The AI will understand the same information
+- You pay 47.9% less money
+
+```
+Cost / 1K req: $46.66 -> $24.32 = $22.34/day
+```
+
+This means:
+- Before: 1,000 requests cost $46.66
+- After: 1,000 requests cost $24.32
+- You save $22.34 every day
+- That is $670 per month
+- That is $8,040 per year
+
+---
+
 ## Benchmark Results
 
 Real output from `python examples/showcase.py`:
@@ -640,6 +806,113 @@ pytest --cov=core --cov-report=term-missing
       |Streamlit |  |HTML/CSS/JS  |
       +----------+  +-------------+
 ```
+
+---
+
+## Use It in Your Own Code
+
+If you are a developer and want to use AgentForge in your project:
+
+### Compress Any Text
+
+```python
+from core.compression.engines import compress
+
+# Your data
+my_data = '{"users": [{"id": 1, "name": "Alice"}, {"id": 2, "name": "Bob"}]}'
+
+# Compress it
+result = compress(my_data, engine="auto")
+
+# Use the compressed version
+print(result.compressed_text)  # shorter version of your data
+print(result.tokens_before)    # how many tokens before
+print(result.tokens_after)     # how many tokens after
+print(result.savings_pct)      # percentage saved
+```
+
+### Compress Logs
+
+```python
+from core.compression.engines import compress_claw
+
+logs = open("server.log").read()
+result = compress_claw(logs)
+print(f"Saved {abs(result.savings_pct)}%")  # Saved 99.8%
+```
+
+### Compress With a Query
+
+```python
+from core.compression.engines import compress_super
+
+big_document = open("document.txt").read()
+result = compress_super(big_document, query="error messages")
+# Only keeps lines related to "error messages"
+```
+
+### Route Tasks to Agents
+
+```python
+from core.agents.orchestrator import Router, CompressionExpertAgent, DataAnalystAgent, AgentTask
+
+agents = [CompressionExpertAgent(), DataAnalystAgent()]
+router = Router(agents)
+
+task = AgentTask(id="t1", description="compress this data")
+agent = router.route(task)
+print(agent.__class__.__name__)  # CompressionExpertAgent
+```
+
+---
+
+## Frequently Asked Questions
+
+### What is a token?
+
+A token is a piece of a word. When you send text to an AI, it breaks it into tokens. Roughly, 1 token = 0.75 words. So 1,000 tokens is about 750 words. You pay per token.
+
+### Will the AI still understand my data after compression?
+
+Yes. The compression removes redundant information, formatting, and patterns that do not change the meaning. The AI gets the same facts in fewer tokens.
+
+### Which engine should I use?
+
+| Your Data | Use This Engine |
+|-----------|----------------|
+| JSON or API responses | `engine="headroom"` |
+| Server logs or code | `engine="claw"` |
+| Large text + search query | `engine="super"` |
+| Not sure | `engine="auto"` (picks the best one) |
+
+### How much money can I save?
+
+It depends on how much data you send and how often. Here are real numbers:
+
+| You Send | Times Per Day | You Save Per Month |
+|----------|---------------|-------------------|
+| Small JSON | 100 | ~$8 |
+| Medium JSON | 1,000 | ~$670 |
+| Large logs | 1,000 | ~$2,110 |
+| Huge catalog | 10,000 | ~$27,800 |
+
+### Do I need to understand Python to use this?
+
+If you just want to see it work, no. Install it, run `python examples/showcase.py`, and look at the output. If you want to use it in your own app, you need basic Python knowledge.
+
+### What if I get an error?
+
+Most errors are because Python is not installed or not in PATH. Try:
+
+```bash
+python --version
+```
+
+If that does not work, reinstall Python and check "Add Python to PATH" during installation.
+
+### Can I use this with ChatGPT / Claude / other AI APIs?
+
+Yes. AgentForge compresses your data before you send it to any AI API. It works with OpenAI, Anthropic, Google, or any LLM provider.
 
 ---
 
